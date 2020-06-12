@@ -30,7 +30,8 @@ function draw() {
     background(backgroundclr);  //Displaying the background
   else{
     setBackground();
-    background("magentas");
+    background("white");
+    text("Background has not loaded yet",50,50);
   }
   //Displaying both the stands at all times
   stand1.display();
@@ -61,7 +62,7 @@ function draw() {
   text("Drag the square to hit the towers",width/2,50);
   fill(255,0,0,100);
   text("Press to r reset the towers",width/2,75);
-  fill(255,255,0);
+  fill(200,200,0);
   text("Score: "+gameScore, 750, 50);
   pop();
 
@@ -129,9 +130,7 @@ function drawTowers(){
 async function setBackground(){
   let response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Calcutta");
   let responseJSON = response.json();
-  console.log(responseJSON);
-  let datetime = responseJSON.datetime;
-  let hour = datetime.slice(11,13);
+  let hour = responseJSON.datetime.slice(11,13);
   let col;
   if(hour > 6 && hour < 18)
     col = color(100,100,255);
