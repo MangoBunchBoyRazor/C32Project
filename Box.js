@@ -38,8 +38,10 @@ class Box{
       World.remove(world,this.body);
       tint(255,this.Visibility)
       image(this.images[this.image],this.body.position.x,this.body.position.y);
-      if(this.Visibility > 0)
+      if(this.Visibility > 0){
+        gameScore++;
         this.Visibility -= 10;
+      }
     }
     pop();
   }

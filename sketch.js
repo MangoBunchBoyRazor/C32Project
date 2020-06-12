@@ -2,8 +2,10 @@
 const {Engine, World, Bodies, Body, Constraint} = Matter;
 
 //Variables
-var stand1, stand2, sqrs = [], toConnect = false, rocks = [],currentRock = 0;
-
+var stand1, stand2, sqrs = [], toConnect = false, rocks = [],currentRock = 0, gameScore = 0, backgroundclr;
+function preload(){
+  setBackground();
+}
 function setup() {
   createCanvas(800,400); //Creating the canvas
 
@@ -24,8 +26,12 @@ function setup() {
   sling = new SlingShot(rocks[currentRock].body,{x: 150, y: 90});
 }
 function draw() {
-  background(200);  //Displaying the background
-
+  if(backgroundclr)
+    background(backgroundclr);  //Displaying the background
+  else{
+    setBackground();
+    background("magentas");
+  }
   //Displaying both the stands at all times
   stand1.display();
   stand2.display();
@@ -55,6 +61,8 @@ function draw() {
   text("Drag the square to hit the towers",width/2,50);
   fill(255,0,0,100);
   text("Press to r reset the towers",width/2,75);
+  fill(255,255,0);
+  text("Score: "+gameScore, 750, 50);
   pop();
 
   Engine.update(engine); //Updating the engine
@@ -93,6 +101,7 @@ function keyPressed(){
       sqrs.splice(i,1);
     }
     drawTowers(); //Drawing them again
+    gameScore = 0;
   }
 }
 //Function to draw the towers
@@ -116,4 +125,17 @@ function drawTowers(){
     sqrs.push(new Box(i,pos1.y-67.5,25,25));
   for(i = pos1.x+100; i <= stand2.body.vertices[1].x-100; i+=25)
     sqrs.push(new Box(i,pos1.y-92.5,25,25));
+}
+async function setBackground(){
+  let response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Calcutta");
+  let responseJSON = response.json();
+  console.log(responseJSON);
+  let datetime = responseJSON.datetime;
+  let hour = datetime.slice(11,13);
+  let col;
+  if(hour > 6 && hour < 18)
+    col = color(100,100,255);
+  else
+    col = color(0,0,0);
+  backgroundclr = col;
 }

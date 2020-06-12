@@ -10,8 +10,7 @@ class Rock{
         this.radius = radius/2;
         this.body = Bodies.polygon(x, y, sides, this.radius, options);
         World.add(world, this.body);
-        this.Visibility = 255;
-    }
+      }
     display(){
         push();
         colorMode(HSB);
